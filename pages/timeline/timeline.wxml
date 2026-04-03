@@ -1,0 +1,53 @@
+<!-- pages/timeline/timeline.wxml - 书签式时间轴 -->
+<view class="container">
+  <!-- 连续通信提示 -->
+  <view class="streak-info" wx:if="{{streak > 0}}">
+    <text class="streak-text">已连续通信 {{streak}} 日</text>
+  </view>
+
+  <!-- 图例 -->
+  <view class="legend">
+    <view class="legend-item">
+      <view class="legend-marker sent"></view>
+      <text>寄出</text>
+    </view>
+    <view class="legend-item">
+      <view class="legend-marker received"></view>
+      <text>收到</text>
+    </view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 时间轴列表 -->
+  <view class="timeline" wx:elif="{{letters.length > 0}}">
+    <view class="timeline-line"></view>
+    
+    <view class="timeline-item" wx:for="{{letters}}" wx:key="_id">
+      <!-- 时间点 -->
+      <view class="timeline-dot {{item.isMine ? 'sent' : 'received'}}"></view>
+      
+      <!-- 书签卡片 -->
+      <view class="bookmark {{item.isMine ? 'sent' : 'received'}}" bindtap="openLetter" data-id="{{item._id}}">
+        <view class="bookmark-header">
+          <text class="bookmark-date">{{item.dateStr}}</text>
+          <text class="bookmark-author-left {{item.isMine ? 'mine' : 'partner'}}">{{item.authorName}}</text>
+        </view>
+        <view class="bookmark-preview">{{item.preview}}</view>
+        <view class="bookmark-footer" wx:if="{{!item.isMine}}">
+          <text class="{{item.isRead ? 'footer-read' : 'footer-unread'}}">{{item.isRead ? '已开启' : '待开启'}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    <view class="empty-icon">—</view>
+    <view class="empty-text">尚无记录</view>
+    <view class="empty-hint">等待第一封信</view>
+  </view>
+</view>

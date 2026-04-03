@@ -1,0 +1,41 @@
+<!-- pages/my-letters/my-letters.wxml - 我寄出的所有信件 -->
+<view class="container">
+  <view class="header">
+    <view class="header-title">已寄出</view>
+    <view class="header-count" wx:if="{{letters.length > 0}}">共 {{letters.length}} 封</view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 信件列表 -->
+  <view class="letters-list" wx:elif="{{letters.length > 0}}">
+    <view class="letter-item {{item.isUnlocked ? 'unlocked' : 'locked'}}" 
+          wx:for="{{letters}}" 
+          wx:key="_id"
+          bindtap="openLetter"
+          data-id="{{item._id}}">
+      <view class="letter-item-header">
+        <text class="letter-date">{{item.dateStr}}</text>
+        <view class="letter-status {{item.isUnlocked ? 'unlocked' : 'locked'}}">
+          {{item.isUnlocked ? '已送达' : '途中'}}
+        </view>
+      </view>
+      <view class="letter-preview handwriting">
+        {{item.preview}}
+      </view>
+      <view class="letter-footer" wx:if="{{!item.isUnlocked}}">
+        <text class="unlock-time">将于 {{item.unlockTimeStr}} 送达</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:else>
+    <view class="empty-icon">—</view>
+    <view class="empty-text">尚未寄出信件</view>
+    <view class="empty-hint">开始书写第一封信</view>
+  </view>
+</view>

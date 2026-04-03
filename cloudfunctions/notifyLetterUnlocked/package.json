@@ -1,0 +1,9 @@
+{
+  "name": "notifyLetterUnlocked",
+  "version": "1.0.0",
+  "description": "检查已解锁信件并发送通知",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~3.0.0"
+  }
+}

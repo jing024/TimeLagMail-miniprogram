@@ -1,0 +1,138 @@
+/* pages/my-letters/my-letters.wxss */
+.container {
+  min-height: 100vh;
+  padding: 0 32rpx 48rpx;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32rpx 16rpx;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: 400;
+  letter-spacing: 8rpx;
+  color: var(--text-primary);
+}
+
+.header-count {
+  font-size: 24rpx;
+  color: var(--text-muted);
+  letter-spacing: 2rpx;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 200rpx;
+  color: var(--text-muted);
+}
+
+/* 信件列表 */
+.letters-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.letter-item {
+  background: var(--paper-light);
+  background-image:
+    radial-gradient(ellipse at 30% 0%, rgba(255, 252, 245, 0.5) 0%, transparent 60%);
+  border-radius: 14rpx;
+  border: none;
+  box-shadow:
+    inset 0 2rpx 6rpx rgba(255, 252, 245, 0.6),
+    inset 0 -1rpx 4rpx rgba(61, 41, 20, 0.07),
+    0 1rpx 3rpx rgba(61, 41, 20, 0.06);
+  padding: 32rpx;
+  position: relative;
+}
+
+.letter-item.locked {
+  border-left: 5rpx solid var(--border-color);
+}
+
+.letter-item.unlocked {
+  border-left: 5rpx solid rgba(139, 69, 19, 0.5);
+}
+
+.letter-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.letter-date {
+  font-size: 24rpx;
+  color: var(--text-muted);
+  letter-spacing: 2rpx;
+}
+
+.letter-status {
+  padding: 4rpx 16rpx;
+  border-radius: 2rpx;
+  font-size: 20rpx;
+  letter-spacing: 4rpx;
+}
+
+.letter-status.locked {
+  background: rgba(139, 115, 85, 0.1);
+  color: var(--text-muted);
+}
+
+.letter-status.unlocked {
+  background: rgba(139, 69, 19, 0.1);
+  color: var(--seal-color);
+}
+
+.letter-preview {
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: var(--text-primary);
+  font-family: 'STKaiti', 'KaiTi', 'PingFangSC-Regular', 'PingFang SC', 'Songti SC', serif;
+}
+
+.letter-footer {
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx dashed var(--border-color);
+}
+
+.unlock-time {
+  font-size: 22rpx;
+  color: var(--text-muted);
+  letter-spacing: 2rpx;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 200rpx 48rpx;
+  color: var(--text-muted);
+}
+
+.empty-icon {
+  font-size: 48rpx;
+  margin-bottom: 24rpx;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  margin-bottom: 12rpx;
+  letter-spacing: 4rpx;
+}
+
+.empty-hint {
+  font-size: 24rpx;
+  letter-spacing: 2rpx;
+}

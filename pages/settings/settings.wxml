@@ -1,0 +1,63 @@
+<!-- pages/settings/settings.wxml - 简化设置页 -->
+<view class="container">
+  <!-- 三个平行选项 -->
+  <view class="settings-list">
+    <!-- 配对信息 -->
+    <view class="settings-item" bindtap="showPartnerInfo">
+      <view class="item-content">
+        <text class="item-label">配对信息</text>
+        <block wx:if="{{isPaired}}">
+          <text class="item-value">已连接</text>
+        </block>
+        <block wx:else>
+          <text class="item-value">未连接</text>
+        </block>
+      </view>
+      <text class="item-arrow">›</text>
+    </view>
+
+    <!-- 昵称设置 -->
+    <view class="settings-item" bindtap="editNickName">
+      <view class="item-content">
+        <text class="item-label">我的昵称</text>
+        <text class="item-value">{{nickName || '未设置'}}</text>
+      </view>
+      <text class="item-arrow">›</text>
+    </view>
+
+    <!-- 来信通知 -->
+    <view class="settings-item subscribe-row" bindtap="subscribeLetterNotify" wx:if="{{isPaired}}">
+      <view class="subscribe-label"><text class="item-label">来信通知</text></view>
+      <view class="subscribe-value"><text class="item-value">{{subscribedLetter ? '已开启' : '未开启'}}</text></view>
+      <text class="item-arrow">›</text>
+    </view>
+
+    <!-- 送信时间 -->
+    <view class="settings-item" bindtap="showTimePicker" wx:if="{{isPaired}}">
+      <view class="item-content">
+        <text class="item-label">送信时间</text>
+        <text class="item-value">{{unlockTime}}</text>
+      </view>
+      <text class="item-arrow">›</text>
+    </view>
+
+    <!-- 关于时差信 -->
+    <view class="settings-item" bindtap="showAbout">
+      <view class="item-content">
+        <text class="item-label">关于时差信</text>
+        <text class="item-value version-tag">v{{version || '1.0.0'}}</text>
+      </view>
+      <text class="item-arrow">›</text>
+    </view>
+
+    <!-- 退出登录 -->
+    <view class="settings-item logout" bindtap="handleLogout">
+      <view class="item-content">
+        <text class="item-label">退出登录</text>
+      </view>
+      <text class="item-arrow">›</text>
+    </view>
+  </view>
+
+
+</view>

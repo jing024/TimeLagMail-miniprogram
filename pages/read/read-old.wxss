@@ -1,0 +1,105 @@
+/* pages/read/read.wxss */
+.container {
+  min-height: 100vh;
+  padding: 0 32rpx 48rpx;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32rpx 16rpx;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: 400;
+}
+
+.header-date {
+  font-size: 26rpx;
+  color: var(--text-muted);
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 200rpx;
+  color: var(--text-muted);
+}
+
+/* 信件卡片 */
+.letter-card {
+  padding: 48rpx;
+  min-height: 600rpx;
+}
+
+.letter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 32rpx;
+  border-bottom: 2rpx solid var(--border-color);
+  margin-bottom: 32rpx;
+}
+
+.letter-date {
+  font-size: 30rpx;
+  color: var(--text-secondary);
+}
+
+.letter-badge {
+  padding: 8rpx 20rpx;
+  border-radius: 24rpx;
+  font-size: 24rpx;
+}
+
+.letter-badge.unread {
+  background: rgba(250, 173, 20, 0.1);
+  color: var(--warning-color);
+}
+
+.letter-badge.read {
+  background: rgba(82, 196, 26, 0.1);
+  color: var(--success-color);
+}
+
+.letter-content {
+  font-size: 34rpx;
+  line-height: 1.8;
+  color: var(--text-primary);
+  min-height: 400rpx;
+}
+
+.letter-footer {
+  display: flex;
+  justify-content: center;
+  padding-top: 48rpx;
+  margin-top: 48rpx;
+  border-top: 2rpx solid var(--border-color);
+}
+
+.read-btn {
+  padding: 24rpx 80rpx;
+}
+
+/* 空状态 - 等待解锁 */
+.countdown {
+  margin-top: 32rpx;
+  font-size: 48rpx;
+  color: var(--primary-color);
+  font-weight: 500;
+  font-family: 'Courier New', monospace;
+}
+
+/* 历史入口 */
+.history-link {
+  text-align: center;
+  padding: 48rpx;
+}
+
+.history-link text {
+  font-size: 28rpx;
+  color: var(--primary-color);
+}

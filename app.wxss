@@ -1,0 +1,275 @@
+/* 全局样式 - 牛皮纸书信质感 */
+page {
+  --primary-color: #5c4033;
+  --primary-light: #8b6914;
+  --bg-color: #d4c4b0;
+  --paper-color: #e8dcc8;
+  --paper-light: #f0e6d6;
+  --text-primary: #3d2914;
+  --text-secondary: #5c4033;
+  --text-muted: #8b7355;
+  --border-color: rgba(139, 115, 85, 0.25);
+  --seal-color: #8b1a1a;
+  --ink-color: #2c1810;
+
+  background-color: #cfc0a8;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3rpx,
+      rgba(139, 115, 85, 0.04) 3rpx,
+      rgba(139, 115, 85, 0.04) 4rpx
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3rpx,
+      rgba(139, 115, 85, 0.03) 3rpx,
+      rgba(139, 115, 85, 0.03) 4rpx
+    ),
+    radial-gradient(ellipse at 20% 30%, #d8c8b0 0%, #c4b498 100%),
+    radial-gradient(ellipse at 80% 70%, #d0c0a5 0%, #bfaf93 100%);
+  color: var(--text-primary);
+  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* 纸质卡片样式 - 去掉描边，改用内阴影+大圆角营造"厚纸"感 */
+.paper-card {
+  background: var(--paper-light);
+  background-image:
+    radial-gradient(ellipse at 30% 20%, rgba(255, 252, 245, 0.6) 0%, transparent 60%),
+    linear-gradient(180deg, rgba(255, 252, 245, 0.15) 0%, rgba(139, 115, 85, 0.05) 100%);
+  border-radius: 16rpx;
+  border: none;
+  box-shadow:
+    0 2rpx 8rpx rgba(61, 41, 20, 0.10),
+    0 8rpx 24rpx rgba(61, 41, 20, 0.08),
+    inset 0 2rpx 6rpx rgba(255, 252, 245, 0.6),
+    inset 0 -2rpx 6rpx rgba(61, 41, 20, 0.06);
+  padding: 40rpx;
+  margin: 24rpx;
+  position: relative;
+}
+
+/* 纸张边缘做旧纹理 */
+.paper-card::before {
+  content: '';
+  position: absolute;
+  top: 6rpx;
+  left: 6rpx;
+  right: 6rpx;
+  bottom: 6rpx;
+  border-radius: 12rpx;
+  border: 1rpx solid rgba(139, 115, 85, 0.1);
+  pointer-events: none;
+}
+
+/* 按钮样式 - 书信质感 */
+.btn-primary {
+  background: var(--seal-color);
+  color: #f0e6d6;
+  border-radius: 8rpx;
+  padding: 28rpx 64rpx;
+  font-size: 30rpx;
+  font-weight: 400;
+  text-align: center;
+  border: none;
+  box-shadow:
+    0 4rpx 12rpx rgba(139, 26, 26, 0.35),
+    0 1rpx 2rpx rgba(61, 41, 20, 0.2),
+    inset 0 1rpx 0 rgba(255, 200, 180, 0.25),
+    inset 0 -1rpx 0 rgba(0, 0, 0, 0.1);
+  letter-spacing: 6rpx;
+  line-height: 1;
+}
+
+.btn-primary::after {
+  border: none;
+}
+
+.btn-primary:active {
+  box-shadow:
+    0 2rpx 6rpx rgba(139, 26, 26, 0.3),
+    inset 0 3rpx 10rpx rgba(0, 0, 0, 0.25);
+}
+
+.btn-primary[disabled] {
+  opacity: 0.5;
+  background: var(--text-muted);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--primary-color);
+  border: 1rpx solid var(--border-color);
+  border-radius: 4rpx;
+  padding: 27rpx 64rpx;
+  font-size: 30rpx;
+  font-weight: 400;
+  text-align: center;
+  letter-spacing: 6rpx;
+  line-height: 1;
+}
+
+.btn-secondary::after {
+  border: none;
+}
+
+.btn-secondary:active {
+  background: rgba(139, 115, 85, 0.1);
+}
+
+/* 输入框样式 */
+.input-field {
+  background: var(--bg-color);
+  border-radius: 16rpx;
+  padding: 28rpx 32rpx;
+  font-size: 30rpx;
+  border: 2rpx solid var(--border-color);
+  transition: border-color 0.2s;
+}
+
+.input-field:focus {
+  border-color: var(--primary-color);
+}
+
+/* 文本域样式 */
+.textarea-field {
+  background: var(--paper-color);
+  border-radius: 16rpx;
+  padding: 32rpx;
+  font-size: 32rpx;
+  line-height: 1.8;
+  min-height: 600rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 手写字体 - 秀气手写体
+   优先级：手写风格字体 > 楷体 > 宋体 > 系统默认
+   PingFang SC 指定 weight 400/500 避免 iOS 默认用 Light（发黑）
+   STKaiti / KaiTi 是 iOS 自带楷体，渲染最稳定 */
+.handwriting {
+  font-family: 'STKaiti', 'KaiTi', 'PingFangSC-Regular', 'PingFang SC', 'Songti SC', serif;
+  font-weight: 400;
+  font-synthesis: none;
+  line-height: 2;
+  color: var(--ink-color);
+  letter-spacing: 2rpx;
+}
+
+/* 火漆印章装饰 - 多层阴影营造立体压印感 */
+.seal {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #b82828 0%, #8b1a1a 45%, #5c0f0f 100%);
+  border: 4rpx solid rgba(220, 180, 140, 0.35);
+  box-shadow:
+    /* 外侧投影 */
+    0 6rpx 20rpx rgba(61, 41, 20, 0.5),
+    0 2rpx 6rpx rgba(61, 41, 20, 0.3),
+    /* 顶部高光 */
+    inset 0 -4rpx 8rpx rgba(0, 0, 0, 0.3),
+    /* 中心凹陷感 */
+    inset 0 4rpx 10rpx rgba(255, 200, 180, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 235, 220, 0.95);
+  font-size: 28rpx;
+  letter-spacing: 1rpx;
+}
+
+/* 页面标题 */
+.page-title {
+  font-size: 40rpx;
+  font-weight: 300;
+  text-align: center;
+  margin: 48rpx 0;
+  letter-spacing: 4rpx;
+}
+
+/* 副标题 */
+.page-subtitle {
+  font-size: 28rpx;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 16rpx;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 48rpx;
+  color: var(--text-muted);
+}
+
+.empty-icon {
+  font-size: 120rpx;
+  margin-bottom: 32rpx;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 30rpx;
+  margin-bottom: 16rpx;
+}
+
+.empty-hint {
+  font-size: 26rpx;
+  color: var(--text-muted);
+}
+
+/* 加载状态 */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80rpx;
+  color: var(--text-muted);
+}
+
+/* 提示信息 */
+.tip {
+  font-size: 26rpx;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 24rpx;
+}
+
+/* 分隔线 */
+.divider {
+  height: 2rpx;
+  background: var(--border-color);
+  margin: 32rpx 0;
+}
+
+/* 徽章 */
+.badge {
+  display: inline-block;
+  padding: 8rpx 20rpx;
+  border-radius: 24rpx;
+  font-size: 24rpx;
+}
+
+.badge-primary {
+  background: rgba(180, 140, 120, 0.1);
+  color: var(--primary-color);
+}
+
+.badge-success {
+  background: rgba(82, 196, 26, 0.1);
+  color: var(--success-color);
+}
+
+.badge-warning {
+  background: rgba(250, 173, 20, 0.1);
+  color: var(--warning-color);
+}

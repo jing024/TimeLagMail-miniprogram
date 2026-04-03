@@ -1,0 +1,60 @@
+<!-- pages/index/index.wxml - 重新设计的首页 -->
+<view class="container">
+  <!-- 常驻的视觉首页 -->
+  <view class="welcome-section">
+    <view class="logo">
+      <image class="logo-icon" src="/assets/wax_seal_4_clean.png" mode="aspectFit" />
+    </view>
+    <view class="title">时差信</view>
+    <view class="english-name">TimeLag Mail</view>
+    <view class="subtitle">给远方的人写一封信</view>
+    
+    <!-- 统计数字 -->
+    <view class="stats-section" wx:if="{{isLoggedIn}}">
+      <view class="stat-item" bindtap="goToMyLetters">
+        <view class="stat-number">{{sentCount}}</view>
+        <view class="stat-label">已寄出</view>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item" bindtap="goToReceivedLetters">
+        <view class="stat-number">{{receivedCount}}</view>
+        <view class="stat-label">已收到</view>
+        <view class="stat-badge" wx:if="{{unreadCount > 0}}">{{unreadCount}}</view>
+      </view>
+    </view>
+    
+    <!-- 未登录 -->
+    <block wx:if="{{!isLoggedIn}}">
+      <button class="btn-primary login-btn" bindtap="handleLogin">进入</button>
+    </block>
+    
+    <!-- 已登录未配对 -->
+    <block wx:elif="{{isLoggedIn && !isPaired}}">
+      <button class="btn-primary" bindtap="goToPairing">建立连接</button>
+    </block>
+    
+    <!-- 已登录已配对 -->
+    <block wx:else>
+      <view class="action-buttons">
+        <button class="btn-primary {{hasWrittenToday ? 'disabled' : ''}}"
+                bindtap="goToWrite"
+                disabled="{{hasWrittenToday}}">
+          {{hasWrittenToday ? '今日已书' : '🪶 书写'}}
+        </button>
+      </view>
+      <view class="partner-status" wx:if="{{partnerInfo}}">
+        <text>与 {{partnerInfo.nickName || '对方'}} 通信中</text>
+      </view>
+    </block>
+  </view>
+  
+  <!-- 底部导航入口 -->
+  <view class="bottom-nav" wx:if="{{isLoggedIn && isPaired}}">
+    <view class="nav-item" bindtap="goToTimeline">
+      <text class="nav-text">时光轴</text>
+    </view>
+    <view class="nav-item" bindtap="goToSettings">
+      <text class="nav-text">设置</text>
+    </view>
+  </view>
+</view>

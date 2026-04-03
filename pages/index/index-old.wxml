@@ -1,0 +1,77 @@
+<!-- pages/index/index.wxml -->
+<view class="container">
+  <!-- 未登录状态 -->
+  <block wx:if="{{!isLoggedIn}}">
+    <view class="welcome-section">
+      <view class="logo">
+        <view class="logo-icon">封</view>
+      </view>
+      <view class="title">时差信</view>
+      <view class="english-name">TimeLag Mail</view>
+      <view class="subtitle">给远方的人写一封信</view>
+      <view class="description">
+        <text>Hi，朋友</text>
+        <text>让我们把时间慢下来</text>
+      </view>
+      <button class="btn-primary login-btn" bindtap="handleLogin">进入</button>
+    </view>
+  </block>
+
+  <!-- 已登录但未配对 -->
+  <block wx:elif="{{isLoggedIn && !isPaired}}">
+    <view class="welcome-section">
+      <view class="user-info">
+        <text class="greeting">你好，{{userInfo.nickName || '朋友'}}</text>
+      </view>
+      <view class="paper-card">
+        <view class="card-content">
+          <text class="card-title">尚未建立连接</text>
+          <text class="card-desc">建立连接后方可通信</text>
+        </view>
+      </view>
+      <button class="btn-primary" bindtap="goToPairing">建立连接</button>
+    </view>
+  </block>
+
+  <!-- 已登录且已配对 -->
+  <block wx:else>
+    <view class="home-content">
+      <view class="header">
+        <text class="greeting">{{userInfo.nickName || '朋友'}}</text>
+        <text class="partner-info" wx:if="{{partnerInfo}}">
+          与 {{partnerInfo.nickName || '对方'}} 通信中
+        </text>
+      </view>
+
+      <!-- 今日状态卡片 -->
+      <view class="paper-card status-card">
+        <view class="status-header">
+          <text class="status-date">{{today}}</text>
+          <view class="status-badge {{hasWrittenToday ? 'written' : 'not-written'}}">
+            {{hasWrittenToday ? '已投递' : '待书写'}}
+          </view>
+        </view>
+        <view class="streak-info" wx:if="{{streak > 0}}">
+          <text class="streak-text">已连续通信 {{streak}} 日</text>
+        </view>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="action-buttons">
+        <button class="btn-primary {{hasWrittenToday ? 'disabled' : ''}}" 
+                bindtap="goToWrite"
+                disabled="{{hasWrittenToday}}">
+          {{hasWrittenToday ? '今日已书' : '书写'}}
+        </button>
+        <button class="btn-secondary" bindtap="goToRead">
+          收信
+        </button>
+      </view>
+
+      <!-- 提示信息 -->
+      <view class="tip" wx:if="{{!hasWrittenToday}}">
+        <text>将于明日送达</text>
+      </view>
+    </view>
+  </block>
+</view>

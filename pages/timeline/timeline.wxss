@@ -1,0 +1,222 @@
+/* pages/timeline/timeline.wxss - 书签式时间轴 */
+.container {
+  min-height: 100vh;
+  padding: 0 32rpx 48rpx;
+}
+
+.header {
+  padding: 32rpx 16rpx;
+  text-align: center;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: 400;
+  letter-spacing: 8rpx;
+  margin-bottom: 12rpx;
+  color: var(--text-primary);
+}
+
+.streak-text {
+  font-size: 24rpx;
+  color: var(--text-muted);
+  letter-spacing: 2rpx;
+}
+
+.streak-info {
+  padding: 32rpx 16rpx 16rpx;
+  text-align: center;
+}
+
+/* 图例 */
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 48rpx;
+  padding-top: 24rpx;
+  margin-bottom: 32rpx;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.legend-item text {
+  font-size: 24rpx;
+  color: var(--text-muted);
+}
+
+.legend-marker {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 2rpx;
+}
+
+.legend-marker.sent {
+  background: var(--seal-color);
+}
+
+.legend-marker.received {
+  background: var(--text-muted);
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 200rpx;
+  color: var(--text-muted);
+}
+
+/* 时间轴 */
+.timeline {
+  position: relative;
+  padding-left: 24rpx;
+}
+
+.timeline-line {
+  position: absolute;
+  left: 7rpx;
+  top: 0;
+  bottom: 0;
+  width: 2rpx;
+  background: var(--border-color);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 24rpx;
+  display: flex;
+  align-items: flex-start;
+}
+
+/* 时间点 */
+.timeline-dot {
+  position: absolute;
+  left: -20rpx;
+  top: 20rpx;
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 2rpx;
+  z-index: 1;
+}
+
+.timeline-dot.sent {
+  background: var(--seal-color);
+}
+
+.timeline-dot.received {
+  background: var(--text-muted);
+}
+
+/* 书签卡片 - 厚纸质感：大圆角 + 左侧彩色竖线作为视觉锚点 */
+.bookmark {
+  flex: 1;
+  margin-left: 24rpx;
+  padding: 20rpx 24rpx;
+  border-radius: 12rpx;
+  border-left: 5rpx solid;
+  position: relative;
+  box-shadow:
+    inset 0 1rpx 4rpx rgba(255, 252, 245, 0.5),
+    inset 0 -1rpx 3rpx rgba(61, 41, 20, 0.05);
+}
+
+.bookmark.sent {
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.08) 0%, rgba(139, 69, 19, 0.04) 100%);
+  border-left-color: var(--seal-color);
+}
+
+.bookmark.received {
+  background: linear-gradient(135deg, rgba(139, 115, 85, 0.10) 0%, rgba(139, 115, 85, 0.04) 100%);
+  border-left-color: var(--text-muted);
+}
+
+.bookmark-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.bookmark-date {
+  font-size: 22rpx;
+  color: var(--text-muted);
+  letter-spacing: 1rpx;
+}
+
+/* 作者昵称标签——显示在日期右侧，不再争右上角 */
+.bookmark-author-left {
+  font-size: 20rpx;
+  letter-spacing: 2rpx;
+  padding: 2rpx 10rpx;
+  border-radius: 2rpx;
+  margin-left: 12rpx;
+}
+
+.bookmark-author-left.mine {
+  background: rgba(139, 69, 19, 0.1);
+  color: var(--seal-color);
+}
+
+.bookmark-author-left.partner {
+  background: rgba(139, 115, 85, 0.1);
+  color: var(--text-secondary);
+}
+
+.bookmark-preview {
+  font-size: 26rpx;
+  line-height: 1.5;
+  color: var(--text-primary);
+  font-family: 'STKaiti', 'KaiTi', 'PingFangSC-Regular', 'PingFang SC', 'Songti SC', serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bookmark-footer {
+  margin-top: 10rpx;
+  padding-top: 10rpx;
+  border-top: 1rpx solid rgba(139, 115, 85, 0.1);
+}
+
+.footer-read {
+  font-size: 20rpx;
+  color: var(--text-muted);
+  letter-spacing: 1rpx;
+}
+
+.footer-unread {
+  font-size: 20rpx;
+  color: var(--seal-color);
+  letter-spacing: 1rpx;
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 160rpx 48rpx;
+  color: var(--text-muted);
+}
+
+.empty-icon {
+  font-size: 48rpx;
+  margin-bottom: 24rpx;
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: 28rpx;
+  margin-bottom: 12rpx;
+  letter-spacing: 4rpx;
+}
+
+.empty-hint {
+  font-size: 24rpx;
+  letter-spacing: 2rpx;
+}

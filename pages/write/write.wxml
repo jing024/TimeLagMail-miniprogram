@@ -1,0 +1,37 @@
+<!-- pages/write/write.wxml -->
+<view class="container">
+  <view class="header">
+    <view class="header-title">书写</view>
+    <view class="header-tip">将在 {{unlockTime}} 送达</view>
+  </view>
+
+  <!-- 信纸区域 -->
+  <view class="paper-card letter-paper">
+    <!-- 右下角火漆印章 -->
+    <image class="wax-seal-badge" src="/assets/wax_seal_4_clean.png" mode="aspectFit" />
+    <textarea class="letter-textarea handwriting"
+              placeholder="此刻，你想对远方的人说什么..."
+              placeholder-class="placeholder"
+              maxlength="2000"
+              bindinput="onInput"
+              value="{{content}}"/>
+    <view class="char-count {{content.length >= 1800 ? 'warning' : ''}}">
+      {{content.length}} / 2000
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-bar">
+    <button class="btn-secondary" bindtap="goBack">搁置</button>
+    <button class="btn-primary {{!canSubmit ? 'disabled' : ''}}"
+            bindtap="submitLetter"
+            disabled="{{!canSubmit || submitting}}">
+      封缄
+    </button>
+  </view>
+
+  <!-- 提示 -->
+  <view class="bottom-tip">
+    <text>封缄后不可更改</text>
+  </view>
+</view>

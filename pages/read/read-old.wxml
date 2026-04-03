@@ -1,0 +1,58 @@
+<!-- pages/read/read.wxml -->
+<view class="container">
+  <view class="header">
+    <view class="header-title">收信</view>
+    <view class="header-date" wx:if="{{currentLetter}}">{{letterDate}}</view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 有新信件 -->
+  <block wx:elif="{{currentLetter}}">
+    <view class="paper-card letter-card">
+      <view class="letter-header">
+        <view class="letter-date">{{letterDate}}</view>
+        <view class="letter-badge {{currentLetter.isRead ? 'read' : 'unread'}}">
+          {{currentLetter.isRead ? '已读' : '新信件'}}
+        </view>
+      </view>
+      
+      <view class="letter-content handwriting">
+        {{currentLetter.content}}
+      </view>
+
+      <view class="letter-footer" wx:if="{{!currentLetter.isRead}}">
+        <button class="btn-primary read-btn" bindtap="markAsRead">
+          ❤️ 已读
+        </button>
+      </view>
+    </view>
+  </block>
+
+  <!-- 等待解锁 -->
+  <block wx:elif="{{hasPending}}">
+    <view class="empty-state">
+      <view class="empty-icon">🔒</view>
+      <view class="empty-text">信件正在路上</view>
+      <view class="empty-hint">将于次日解锁</view>
+      <view class="countdown" wx:if="{{countdown}}">{{countdown}}</view>
+    </view>
+  </block>
+
+  <!-- 无信件 -->
+  <block wx:else>
+    <view class="empty-state">
+      <view class="empty-icon">📭</view>
+      <view class="empty-text">暂无新信件</view>
+      <view class="empty-hint">等 Ta 写好第一封信吧</view>
+    </view>
+  </block>
+
+  <!-- 历史入口 -->
+  <view class="history-link" bindtap="goToTimeline" wx:if="{{!loading}}">
+    <text>查看全部信件 ></text>
+  </view>
+</view>

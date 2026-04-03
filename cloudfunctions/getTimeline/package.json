@@ -1,0 +1,9 @@
+{
+  "name": "getTimeline",
+  "version": "1.0.0",
+  "description": "获取时光轴",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~3.0.0"
+  }
+}

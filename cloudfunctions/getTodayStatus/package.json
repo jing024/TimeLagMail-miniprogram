@@ -1,0 +1,9 @@
+{
+  "name": "getTodayStatus",
+  "version": "1.0.0",
+  "description": "获取今日写信状态",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~3.0.0"
+  }
+}

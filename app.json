@@ -1,0 +1,20 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/pairing/pairing",
+    "pages/write/write",
+    "pages/read/read",
+    "pages/timeline/timeline",
+    "pages/settings/settings",
+    "pages/my-letters/my-letters"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#d4c4b0",
+    "navigationBarTitleText": "时差信",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#d4c4b0"
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

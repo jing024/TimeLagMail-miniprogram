@@ -1,0 +1,44 @@
+<!-- pages/read/read.wxml - 收到的所有信件列表 -->
+<view class="container">
+  <view class="header">
+    <view class="header-title">已收到</view>
+    <view class="header-count" wx:if="{{letters.length > 0}}">共 {{letters.length}} 封</view>
+  </view>
+
+  <!-- 加载中 -->
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <!-- 信件列表 -->
+  <view class="letters-list" wx:elif="{{letters.length > 0}}">
+    <view class="letter-item {{item.isRead ? 'read' : 'unread'}}"
+          wx:for="{{letters}}"
+          wx:key="_id"
+          bindtap="openLetter"
+          data-id="{{item._id}}">
+      <view class="letter-item-header">
+        <text class="letter-date">{{item.dateStr}}</text>
+        <view class="letter-status {{item.isRead ? 'read' : 'unread'}}">
+          {{item.isRead ? '已启' : '待启'}}
+        </view>
+      </view>
+      <view class="letter-preview handwriting">
+        {{item.preview}}
+      </view>
+    </view>
+
+    <!-- 待解锁提示 - 在列表底部 -->
+    <view class="pending-notice {{hasPending && pendingCount > 0 ? '' : 'pending-idle'}}" wx:if="{{letters.length > 0}}">
+      <text wx:if="{{hasPending && pendingCount > 0}}">还有 {{pendingCount}} 封信件将于明日 {{pendingTimeStr}} 送达</text>
+      <text wx:else>暂无待送达的信件，静候对方落笔</text>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:elif="{{!loading}}">
+    <view class="empty-icon">—</view>
+    <view class="empty-text">尚未收到信件</view>
+    <view class="empty-hint">等待对方的第一封信</view>
+  </view>
+</view>
