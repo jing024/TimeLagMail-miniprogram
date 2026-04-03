@@ -31,12 +31,15 @@ App({
       const { result } = await wx.cloud.callFunction({
         name: 'getUserInfo'
       })
-      
+
       if (result.code === 0) {
         this.globalData.openid = result.data.openid
         this.globalData.isPaired = result.data.isPaired
         this.globalData.partnerInfo = result.data.partnerInfo
-        
+
+        // 检查并发送待解锁信件的订阅通知
+        this.checkAndNotify()
+
         // 通知页面更新
         if (this.userInfoReadyCallback) {
           this.userInfoReadyCallback(result.data)
@@ -44,6 +47,17 @@ App({
       }
     } catch (err) {
       console.log('未登录或登录已过期')
+    }
+  },
+
+  // 检查并发送来信通知（每次打开小程序时触发）
+  async checkAndNotify() {
+    try {
+      await wx.cloud.callFunction({
+        name: 'notifyLetterUnlocked'
+      })
+    } catch (err) {
+      console.error('检查来信通知失败:', err)
     }
   },
 

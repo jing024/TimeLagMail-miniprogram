@@ -46,12 +46,10 @@ exports.main = async (event, context) => {
         partnerOpenid: null
       }
     } else {
-      // 更新最后登录时间，同时更新昵称和头像（确保每次登录都同步微信资料）
+      // 只更新最后登录时间，昵称和头像不自动同步（避免覆盖用户手动设置的昵称）
       await db.collection('users').doc(user._id).update({
         data: {
-          lastLoginAt: new Date(),
-          nickName: event.userInfo?.nickName || user.nickName || '',
-          avatarUrl: event.userInfo?.avatarUrl || user.avatarUrl || ''
+          lastLoginAt: new Date()
         }
       })
     }

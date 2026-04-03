@@ -9,7 +9,7 @@ Page({
     unlockTime: '22:00',
     subscribedLetter: false,
     nickName: '',
-    version: '1.0.2'
+    version: '1.0.3'
   },
 
   onLoad() {
