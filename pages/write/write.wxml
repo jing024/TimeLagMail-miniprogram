@@ -2,7 +2,7 @@
 <view class="container">
   <view class="header">
     <view class="header-title">书写</view>
-    <view class="header-tip">将在 {{unlockTime}} 送达</view>
+    <view class="header-tip">{{deliveryDateStr}}</view>
   </view>
 
   <!-- 信纸区域 -->
@@ -18,6 +18,19 @@
     <view class="char-count {{content.length >= 1800 ? 'warning' : ''}}">
       {{content.length}} / 2000
     </view>
+  </view>
+
+  <!-- 送达天数选择 -->
+  <view class="delivery-picker">
+    <view class="delivery-label">几天后送达</view>
+    <scroll-view class="delivery-days" scroll-x enable-flex>
+      <view wx:for="{{dayOptions}}" wx:key="*this"
+            class="day-btn {{deliveryDays === item ? 'active' : ''}}"
+            data-days="{{item}}"
+            bindtap="selectDeliveryDays">
+        {{item}}
+      </view>
+    </scroll-view>
   </view>
 
   <!-- 操作按钮 -->

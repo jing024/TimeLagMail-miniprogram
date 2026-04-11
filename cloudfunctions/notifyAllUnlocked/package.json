@@ -1,0 +1,9 @@
+{
+  "name": "notifyAllUnlocked",
+  "version": "1.0.0",
+  "description": "定时扫描所有已解锁信件并发送订阅通知",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~3.0.0"
+  }
+}

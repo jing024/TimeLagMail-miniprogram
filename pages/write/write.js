@@ -1,10 +1,15 @@
 // pages/write/write.js
+const app = getApp()
+
 Page({
   data: {
     content: '',
     canSubmit: false,
     submitting: false,
-    unlockTime: '22:00'
+    unlockTime: '22:00',
+    deliveryDays: 1,
+    deliveryDateStr: '',
+    dayOptions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   },
 
   onLoad() {
@@ -19,13 +24,32 @@ Page({
         name: 'getUserInfo'
       })
       if (result.code === 0) {
-        this.setData({
-          unlockTime: result.data.unlockTime || '22:00'
-        })
+        const unlockTime = result.data.unlockTime || '22:00'
+        this.setData({ unlockTime })
+        this.updateDeliveryDateStr(1, unlockTime)
       }
     } catch (err) {
       console.error('加载送信时间失败:', err)
+      this.updateDeliveryDateStr(1, '22:00')
     }
+  },
+
+  // 计算并更新预计送达时间文案
+  updateDeliveryDateStr(days, unlockTime) {
+    const now = new Date()
+    const deliveryDate = new Date(now)
+    deliveryDate.setDate(deliveryDate.getDate() + days)
+    const month = deliveryDate.getMonth() + 1
+    const day = deliveryDate.getDate()
+    const deliveryDateStr = `${month}月${day}日 ${unlockTime} 送达`
+    this.setData({ deliveryDateStr })
+  },
+
+  // 选择送达天数
+  selectDeliveryDays(e) {
+    const days = Number(e.currentTarget.dataset.days)
+    this.setData({ deliveryDays: days })
+    this.updateDeliveryDateStr(days, this.data.unlockTime)
   },
 
   // 检查今天是否已写信
@@ -78,8 +102,8 @@ Page({
 
   // 提交信件
   async submitLetter() {
-    const { content } = this.data
-    
+    const { content, deliveryDays } = this.data
+
     if (!content.trim()) {
       wx.showToast({
         title: '内容不能为空',
@@ -93,14 +117,16 @@ Page({
     try {
       const { result } = await wx.cloud.callFunction({
         name: 'sendLetter',
-        data: { content: content.trim() }
+        data: { content: content.trim(), deliveryDays }
       })
 
       if (result.code === 0) {
-        const time = this.data.unlockTime || '22:00'
+        // 发信成功后静默请求订阅授权，累积通知配额
+        app.requestSubscribeOnce()
+
         wx.showModal({
           title: '封存成功',
-          content: `你的信将在 ${time} 送达给 Ta`,
+          content: `你的信将在 ${this.data.deliveryDateStr}`,
           showCancel: false,
           success: () => {
             wx.navigateBack()

@@ -1,0 +1,113 @@
+/* pages/letter-detail/letter-detail.wxss */
+.container {
+  min-height: 100vh;
+  padding: 0 32rpx 48rpx;
+}
+
+/* 信件信息 */
+.letter-meta {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 32rpx 16rpx;
+}
+
+.meta-date {
+  font-size: 28rpx;
+  color: var(--text-muted);
+  letter-spacing: 2rpx;
+}
+
+.meta-author {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  letter-spacing: 2rpx;
+  padding: 4rpx 16rpx;
+  background: rgba(139, 115, 85, 0.1);
+  border-radius: 4rpx;
+}
+
+/* 信纸 - 复用 write 页的厚牛皮纸质感 */
+.letter-paper {
+  min-height: 600rpx;
+  padding: 64rpx 48rpx;
+  margin-bottom: 48rpx;
+  position: relative;
+  background: var(--paper-light);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 42rpx,
+      rgba(139, 115, 85, 0.04) 42rpx,
+      rgba(139, 115, 85, 0.04) 43rpx
+    ),
+    radial-gradient(ellipse at 25% 20%, rgba(255, 252, 245, 0.5) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 80%, rgba(139, 115, 85, 0.08) 0%, transparent 50%);
+  border-radius: 20rpx;
+  border: none;
+  box-shadow:
+    0 4rpx 16rpx rgba(61, 41, 20, 0.12),
+    0 12rpx 40rpx rgba(61, 41, 20, 0.08),
+    inset 0 3rpx 10rpx rgba(255, 252, 245, 0.7),
+    inset 0 -3rpx 10rpx rgba(61, 41, 20, 0.05);
+
+  /* 初始折叠状态 */
+  opacity: 0;
+  transform: scaleY(0.85) translateY(20rpx);
+  transform-origin: top center;
+}
+
+/* 信纸内边缘暗纹 */
+.letter-paper::before {
+  content: '';
+  position: absolute;
+  top: 10rpx;
+  left: 10rpx;
+  right: 10rpx;
+  bottom: 10rpx;
+  border-radius: 16rpx;
+  border: 1rpx solid rgba(139, 115, 85, 0.12);
+  pointer-events: none;
+}
+
+/* 展开动画 */
+.letter-paper.unfold {
+  opacity: 1;
+  transform: scaleY(1) translateY(0);
+  transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* 火漆印章 */
+.wax-seal-badge {
+  position: absolute;
+  bottom: 36rpx;
+  right: 36rpx;
+  width: 80rpx;
+  height: 80rpx;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+/* 信件正文 */
+.letter-content {
+  font-size: 32rpx;
+  line-height: 2;
+  color: var(--ink-color);
+  font-family: 'STKaiti', 'KaiTi', 'PingFangSC-Regular', 'PingFang SC', 'Songti SC', serif;
+  letter-spacing: 2rpx;
+  white-space: pre-wrap;
+  word-break: break-all;
+  padding-bottom: 80rpx;
+}
+
+/* 操作区 */
+.action-area {
+  display: flex;
+  gap: 24rpx;
+}
+
+.action-area .btn-secondary,
+.action-area .btn-primary {
+  flex: 1;
+}

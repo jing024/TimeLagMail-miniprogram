@@ -17,6 +17,29 @@
     </view>
   </view>
 
+  <!-- 共同回忆词云 -->
+  <view class="word-cloud-card" wx:if="{{!loading && letters.length >= 5}}">
+    <view class="word-cloud-header" bindtap="toggleWordCloud">
+      <text class="word-cloud-title">共同回忆</text>
+      <text class="word-cloud-toggle">{{wordCloudExpanded ? '收起' : '展开'}}</text>
+    </view>
+    <view class="word-cloud-body" wx:if="{{wordCloudExpanded}}">
+      <view class="word-cloud-scatter" wx:if="{{wordCloudWords.length > 0}}">
+        <text
+          wx:for="{{wordCloudWords}}"
+          wx:key="text"
+          class="cloud-word"
+          style="font-size:{{item.fontSize}}rpx; left:{{item.x}}rpx; top:{{item.y}}rpx; opacity:{{item.opacity}}; color:{{item.color}};">{{item.text}}</text>
+      </view>
+      <view class="loading" wx:elif="{{wordCloudLoading}}">
+        <text>加载中...</text>
+      </view>
+      <view class="word-cloud-footnote" wx:if="{{totalLetters > 0}}">
+        <text>来自 {{totalLetters}} 封信的共同记忆</text>
+      </view>
+    </view>
+  </view>
+
   <!-- 加载中 -->
   <view class="loading" wx:if="{{loading}}">
     <text>加载中...</text>
@@ -25,20 +48,19 @@
   <!-- 时间轴列表 -->
   <view class="timeline" wx:elif="{{letters.length > 0}}">
     <view class="timeline-line"></view>
-    
+
     <view class="timeline-item" wx:for="{{letters}}" wx:key="_id">
       <!-- 时间点 -->
       <view class="timeline-dot {{item.isMine ? 'sent' : 'received'}}"></view>
-      
+
       <!-- 书签卡片 -->
       <view class="bookmark {{item.isMine ? 'sent' : 'received'}}" bindtap="openLetter" data-id="{{item._id}}">
         <view class="bookmark-header">
-          <text class="bookmark-date">{{item.dateStr}}</text>
-          <text class="bookmark-author-left {{item.isMine ? 'mine' : 'partner'}}">{{item.authorName}}</text>
-        </view>
-        <view class="bookmark-preview">{{item.preview}}</view>
-        <view class="bookmark-footer" wx:if="{{!item.isMine}}">
-          <text class="{{item.isRead ? 'footer-read' : 'footer-unread'}}">{{item.isRead ? '已开启' : '待开启'}}</text>
+          <view class="bookmark-header-left">
+            <text class="bookmark-date">{{item.dateStr}}</text>
+            <text class="bookmark-author-left {{item.isMine ? 'mine' : 'partner'}}">{{item.authorName}}</text>
+          </view>
+          <text wx:if="{{!item.isMine}}" class="{{item.isRead ? 'footer-read' : 'footer-unread'}}">{{item.isRead ? '已开启' : '待开启'}}</text>
         </view>
       </view>
     </view>

@@ -17,21 +17,19 @@
           wx:key="_id"
           bindtap="openLetter"
           data-id="{{item._id}}">
-      <view class="letter-item-header">
+      <view class="letter-left">
         <text class="letter-date">{{item.dateStr}}</text>
-        <view class="letter-status {{item.isRead ? 'read' : 'unread'}}">
-          {{item.isRead ? '已启' : '待启'}}
-        </view>
+        <text class="letter-preview">{{item.preview}}</text>
       </view>
-      <view class="letter-preview handwriting">
-        {{item.preview}}
+      <view class="letter-status {{item.isRead ? 'read' : 'unread'}}">
+        {{item.isRead ? '已启' : '待启'}}
       </view>
     </view>
 
-    <!-- 待解锁提示 - 在列表底部 -->
+    <!-- 待解锁提示 -->
     <view class="pending-notice {{hasPending && pendingCount > 0 ? '' : 'pending-idle'}}" wx:if="{{letters.length > 0}}">
-      <text wx:if="{{hasPending && pendingCount > 0}}">还有 {{pendingCount}} 封信件将于明日 {{pendingTimeStr}} 送达</text>
-      <text wx:else>暂无待送达的信件，静候对方落笔</text>
+      <text wx:if="{{hasPending && pendingCount > 0}}">还有 {{pendingCount}} 封信件在途中</text>
+      <text wx:else>静候对方落笔</text>
     </view>
   </view>
 

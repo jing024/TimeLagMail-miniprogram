@@ -1,4 +1,6 @@
 // pages/my-letters/my-letters.js - 我寄出的所有信件
+const app = getApp()
+
 Page({
   data: {
     loading: true,
@@ -24,41 +26,32 @@ Page({
 
       if (result.code === 0) {
         const allLetters = result.data.letters || []
-        
-        // 只取我写的信
         const myLetters = allLetters.filter(l => l.isMine)
-        
-        // 处理信件数据
+
         const now = new Date()
         const processedLetters = myLetters.map(letter => {
           const date = new Date(letter.createdAt)
-          // 从 unlockAt 字符串中直接提取时间
-          // 格式可能是：Sun Mar 29 2026 22:00:00 GMT+0800 或 ISO 格式
-          let unlockTimeStr = ''
-          
-          if (typeof letter.unlockAt === 'string') {
-            // ISO 格式字符串，统一用 Date 解析后取 UTC+8
-            const d = new Date(letter.unlockAt)
-            const utcHours = d.getUTCHours()
-            const localHours = (utcHours + 8) % 24
-            unlockTimeStr = `${localHours.toString().padStart(2, '0')}:${d.getUTCMinutes().toString().padStart(2, '0')}`
-          } else {
-            // Date 对象
-            const d = new Date(letter.unlockAt)
-            const utcHours = d.getUTCHours()
-            const localHours = (utcHours + 8) % 24
-            unlockTimeStr = `${localHours.toString().padStart(2, '0')}:${d.getUTCMinutes().toString().padStart(2, '0')}`
-          }
-          
           const unlockAt = new Date(letter.unlockAt)
           const isUnlocked = now >= unlockAt
-          
+
+          // 计算送达日期文案
+          let unlockDateStr = ''
+          if (!isUnlocked) {
+            const uMonth = unlockAt.getMonth() + 1
+            const uDay = unlockAt.getDate()
+            const utcHours = unlockAt.getUTCHours()
+            const localHours = (utcHours + 8) % 24
+            const localMin = unlockAt.getUTCMinutes()
+            unlockDateStr = `${uMonth}月${uDay}日 ${localHours.toString().padStart(2, '0')}:${localMin.toString().padStart(2, '0')}`
+          }
+
+          const preview = letter.content.substring(0, 10) + (letter.content.length > 10 ? '...' : '')
           return {
             ...letter,
             dateStr: `${date.getMonth() + 1}月${date.getDate()}日`,
-            unlockTimeStr: unlockTimeStr,
             isUnlocked,
-            preview: letter.content.substring(0, 60) + (letter.content.length > 60 ? '...' : '')
+            unlockDateStr,
+            preview
           }
         })
 
@@ -87,15 +80,17 @@ Page({
   openLetter(e) {
     const letterId = e.currentTarget.dataset.id
     const letter = this.data.letters.find(l => l._id === letterId)
-    
+
     if (!letter) return
 
-    // 显示信件内容
-    wx.showModal({
-      title: `${letter.dateStr} 寄出的信`,
-      content: letter.content,
-      showCancel: false,
-      confirmText: '关闭'
+    app.globalData.currentLetter = {
+      ...letter,
+      type: 'sent',
+      authorName: '我'
+    }
+
+    wx.navigateTo({
+      url: '/pages/letter-detail/letter-detail'
     })
   }
 })

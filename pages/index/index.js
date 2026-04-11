@@ -48,6 +48,8 @@ Page({
         if (isPaired) {
           this.getTodayStatus()
           this.loadStats()
+          // 每次打开首页静默累积订阅配额
+          app.requestSubscribeOnce()
         }
       } else {
         this.setData({ isLoggedIn: false })

@@ -12,22 +12,22 @@
 
   <!-- 信件列表 -->
   <view class="letters-list" wx:elif="{{letters.length > 0}}">
-    <view class="letter-item {{item.isUnlocked ? 'unlocked' : 'locked'}}" 
-          wx:for="{{letters}}" 
+    <view class="letter-item {{item.isUnlocked ? 'unlocked' : 'locked'}}"
+          wx:for="{{letters}}"
           wx:key="_id"
           bindtap="openLetter"
           data-id="{{item._id}}">
-      <view class="letter-item-header">
-        <text class="letter-date">{{item.dateStr}}</text>
+      <view class="letter-item-main">
+        <view class="letter-left">
+          <text class="letter-date">{{item.dateStr}}</text>
+          <text class="letter-preview">{{item.preview}}</text>
+        </view>
         <view class="letter-status {{item.isUnlocked ? 'unlocked' : 'locked'}}">
           {{item.isUnlocked ? '已送达' : '途中'}}
         </view>
       </view>
-      <view class="letter-preview handwriting">
-        {{item.preview}}
-      </view>
-      <view class="letter-footer" wx:if="{{!item.isUnlocked}}">
-        <text class="unlock-time">将于 {{item.unlockTimeStr}} 送达</text>
+      <view class="letter-unlock-hint" wx:if="{{!item.isUnlocked}}">
+        <text class="unlock-time">{{item.unlockDateStr}} 送达</text>
       </view>
     </view>
   </view>

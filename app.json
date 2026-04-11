@@ -6,7 +6,8 @@
     "pages/read/read",
     "pages/timeline/timeline",
     "pages/settings/settings",
-    "pages/my-letters/my-letters"
+    "pages/my-letters/my-letters",
+    "pages/letter-detail/letter-detail"
   ],
   "window": {
     "backgroundTextStyle": "light",

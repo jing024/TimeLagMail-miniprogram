@@ -50,6 +50,31 @@ App({
     }
   },
 
+  // 静默请求订阅消息授权，累积发送配额
+  // 用户勾选"总是允许"后，后续调用不弹窗，自动累积配额
+  requestSubscribeOnce() {
+    const tmplId = '9hv5zftpWQMAuRn9ugVIGjbQNN-34EshU8cnuJJSPVk'
+    wx.requestSubscribeMessage({
+      tmplIds: [tmplId],
+      success: async (res) => {
+        if (res[tmplId] === 'accept') {
+          // 确保数据库中订阅状态为 true
+          try {
+            await wx.cloud.callFunction({
+              name: 'updateNotifySubscribe',
+              data: { subscribed: true }
+            })
+          } catch (e) {
+            console.error('更新订阅状态失败:', e)
+          }
+        }
+      },
+      fail: () => {
+        // 静默失败，不影响用户操作
+      }
+    })
+  },
+
   // 检查并发送来信通知（每次打开小程序时触发）
   async checkAndNotify() {
     try {

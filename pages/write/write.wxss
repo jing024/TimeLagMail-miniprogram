@@ -104,6 +104,45 @@
   color: var(--seal-color);
 }
 
+/* 送达天数选择器 */
+.delivery-picker {
+  margin-bottom: 40rpx;
+}
+
+.delivery-label {
+  font-size: 24rpx;
+  color: var(--text-muted);
+  letter-spacing: 2rpx;
+  margin-bottom: 20rpx;
+  padding-left: 8rpx;
+}
+
+.delivery-days {
+  display: flex;
+  white-space: nowrap;
+}
+
+.day-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  font-size: 26rpx;
+  color: var(--text-muted);
+  background: rgba(139, 115, 85, 0.06);
+  margin-right: 16rpx;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.day-btn.active {
+  background: var(--seal-color);
+  color: #fff;
+  box-shadow: 0 4rpx 12rpx rgba(183, 58, 42, 0.3);
+}
+
 /* 操作栏 */
 .action-bar {
   display: flex;

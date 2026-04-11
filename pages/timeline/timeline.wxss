@@ -111,7 +111,7 @@
   background: var(--text-muted);
 }
 
-/* 书签卡片 - 厚纸质感：大圆角 + 左侧彩色竖线作为视觉锚点 */
+/* 书签卡片 */
 .bookmark {
   flex: 1;
   margin-left: 24rpx;
@@ -138,7 +138,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8rpx;
+}
+
+.bookmark-header-left {
+  display: flex;
+  align-items: center;
 }
 
 .bookmark-date {
@@ -147,7 +151,7 @@
   letter-spacing: 1rpx;
 }
 
-/* 作者昵称标签——显示在日期右侧，不再争右上角 */
+/* 作者昵称标签 */
 .bookmark-author-left {
   font-size: 20rpx;
   letter-spacing: 2rpx;
@@ -166,22 +170,6 @@
   color: var(--text-secondary);
 }
 
-.bookmark-preview {
-  font-size: 26rpx;
-  line-height: 1.5;
-  color: var(--text-primary);
-  font-family: 'STKaiti', 'KaiTi', 'PingFangSC-Regular', 'PingFang SC', 'Songti SC', serif;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.bookmark-footer {
-  margin-top: 10rpx;
-  padding-top: 10rpx;
-  border-top: 1rpx solid rgba(139, 115, 85, 0.1);
-}
-
 .footer-read {
   font-size: 20rpx;
   color: var(--text-muted);
@@ -192,6 +180,59 @@
   font-size: 20rpx;
   color: var(--seal-color);
   letter-spacing: 1rpx;
+}
+
+/* 词云区域 — 透明融入页面 */
+.word-cloud-card {
+  margin-bottom: 32rpx;
+  padding: 24rpx 16rpx;
+  border-top: 1rpx solid rgba(139, 115, 85, 0.15);
+  border-bottom: 1rpx solid rgba(139, 115, 85, 0.15);
+}
+
+.word-cloud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.word-cloud-title {
+  font-size: 26rpx;
+  color: var(--text-muted);
+  letter-spacing: 4rpx;
+}
+
+.word-cloud-toggle {
+  font-size: 22rpx;
+  color: var(--text-muted);
+  letter-spacing: 2rpx;
+  opacity: 0.7;
+}
+
+.word-cloud-body {
+  margin-top: 24rpx;
+}
+
+.word-cloud-scatter {
+  position: relative;
+  width: 100%;
+  height: 420rpx;
+  overflow: hidden;
+}
+
+.cloud-word {
+  position: absolute;
+  white-space: nowrap;
+  font-family: 'STKaiti', 'KaiTi', 'PingFang SC', serif;
+}
+
+.word-cloud-footnote {
+  text-align: center;
+  margin-top: 16rpx;
+  font-size: 22rpx;
+  color: var(--text-muted);
+  letter-spacing: 2rpx;
+  opacity: 0.7;
 }
 
 /* 空状态 */

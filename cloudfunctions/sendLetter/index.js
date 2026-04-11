@@ -9,7 +9,7 @@ const _ = db.command
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   const openid = wxContext.OPENID
-  const { content } = event
+  const { content, deliveryDays: rawDays } = event
 
   if (!openid) {
     return { code: 1001, message: '未登录' }
@@ -54,18 +54,21 @@ exports.main = async (event, context) => {
       return { code: 1003, message: '今天已经写过信了' }
     }
 
+    // 校验送达天数：1-10，默认1
+    const deliveryDays = Math.max(1, Math.min(10, Math.floor(Number(rawDays) || 1)))
+
     // 获取用户设置的解锁时间
     const unlockTimeStr = user.unlockTime || '22:00'
-    
+
     // 获取当前时间（服务器UTC时间）
     const now = new Date()
 
     // 解析用户设置的送信时间（北京时区，UTC+8）
     const [unlockHour, unlockMinute] = unlockTimeStr.split(':').map(Number)
 
-    // 计算次日解锁日期
+    // 计算 T+N 解锁日期
     const unlockDate = new Date(now)
-    unlockDate.setDate(unlockDate.getDate() + 1)
+    unlockDate.setDate(unlockDate.getDate() + deliveryDays)
     // 用户输入的是北京时间（UTC+8），服务器是UTC
     // 需要用 UTC 方法写入，并减去8小时偏移量
     unlockDate.setUTCHours(unlockHour - 8, unlockMinute, 0, 0)

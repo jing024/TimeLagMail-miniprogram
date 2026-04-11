@@ -1,0 +1,20 @@
+<!-- pages/letter-detail/letter-detail.wxml -->
+<view class="container">
+  <!-- 信件信息 -->
+  <view class="letter-meta">
+    <text class="meta-date">{{dateStr}}</text>
+    <text class="meta-author">{{authorLabel}}</text>
+  </view>
+
+  <!-- 信纸 -->
+  <view class="letter-paper {{animated ? 'unfold' : ''}}">
+    <image class="wax-seal-badge" src="/assets/wax_seal_4_clean.png" mode="aspectFit" />
+    <view class="letter-content handwriting">{{content}}</view>
+  </view>
+
+  <!-- 操作区 -->
+  <view class="action-area">
+    <button class="btn-secondary" bindtap="goBack">合上</button>
+    <button class="btn-primary" wx:if="{{showUnseal}}" bindtap="unseal">启封</button>
+  </view>
+</view>
