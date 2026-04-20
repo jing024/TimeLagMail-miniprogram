@@ -111,3 +111,10 @@
 .action-area .btn-primary {
   flex: 1;
 }
+
+/* 收藏激活态 — 覆盖 btn-secondary 默认样式 */
+.action-area .btn-secondary.favorited {
+  background: var(--seal-color);
+  color: #f0e6d6;
+  border-color: var(--seal-color);
+}

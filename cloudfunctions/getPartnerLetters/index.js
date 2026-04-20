@@ -48,10 +48,16 @@ exports.main = async (event, context) => {
     const pendingCount = pendingRes.data.length
     const nextUnlockTime = hasPending ? pendingRes.data[0].unlockAt : null
 
+    // 附加收藏状态
+    const letters = lettersRes.data.map(letter => ({
+      ...letter,
+      isFavorited: (letter.favoritedBy || []).includes(openid)
+    }))
+
     return {
       code: 0,
       data: {
-        letters: lettersRes.data,
+        letters,
         hasPending,
         pendingCount,
         nextUnlockTime

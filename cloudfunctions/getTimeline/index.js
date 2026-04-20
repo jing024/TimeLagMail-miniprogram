@@ -57,13 +57,15 @@ exports.main = async (event, context) => {
     // 合并并标记
     const myLetters = myLettersRes.data.map(l => ({
       ...l,
-      isMine: true
+      isMine: true,
+      isFavorited: (l.favoritedBy || []).includes(openid)
     }))
 
     const partnerLetters = partnerLettersRes.data.map(l => ({
       ...l,
       isMine: false,
-      authorNickName: partnerNickName
+      authorNickName: partnerNickName,
+      isFavorited: (l.favoritedBy || []).includes(openid)
     }))
 
     const allLetters = [...myLetters, ...partnerLetters].sort((a, b) => {

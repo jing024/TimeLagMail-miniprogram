@@ -18,10 +18,32 @@
   color: var(--text-primary);
 }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
 .header-count {
   font-size: 24rpx;
   color: var(--text-muted);
   letter-spacing: 2rpx;
+}
+
+/* 收藏筛选按钮 */
+.filter-btn {
+  font-size: 22rpx;
+  color: var(--text-muted);
+  letter-spacing: 2rpx;
+  padding: 4rpx 14rpx;
+  border-radius: 4rpx;
+  border: 1rpx solid var(--border-color);
+}
+
+.filter-btn.active {
+  color: #f0e6d6;
+  background: var(--seal-color);
+  border-color: var(--seal-color);
 }
 
 .loading {
@@ -58,6 +80,11 @@
 
 .letter-item.unlocked {
   border-left: 5rpx solid rgba(139, 69, 19, 0.5);
+}
+
+/* 收藏标记 - 金色左边框 */
+.letter-item.favorited {
+  border-left: 5rpx solid #b8860b;
 }
 
 .letter-item-main {

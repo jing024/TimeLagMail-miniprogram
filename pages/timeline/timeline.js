@@ -5,6 +5,8 @@ Page({
   data: {
     loading: true,
     letters: [],
+    allLetters: [],
+    favoriteOnly: false,
     streak: 0,
     wordCloudExpanded: false,
     wordCloudWords: [],
@@ -47,9 +49,10 @@ Page({
         })
 
         this.setData({
-          letters: processedLetters,
+          allLetters: processedLetters,
           loading: false
         })
+        this.applyFilter()
       }
 
       if (streakRes.result.code === 0) {
@@ -65,6 +68,19 @@ Page({
         icon: 'none'
       })
     }
+  },
+
+  // 根据收藏筛选过滤
+  applyFilter() {
+    const { allLetters, favoriteOnly } = this.data
+    const letters = favoriteOnly ? allLetters.filter(l => l.isFavorited) : allLetters
+    this.setData({ letters })
+  },
+
+  // 切换仅收藏筛选
+  toggleFavoriteFilter() {
+    this.setData({ favoriteOnly: !this.data.favoriteOnly })
+    this.applyFilter()
   },
 
   // 切换词云展开/折叠

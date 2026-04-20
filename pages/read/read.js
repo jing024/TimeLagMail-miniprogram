@@ -5,6 +5,8 @@ Page({
   data: {
     loading: true,
     letters: [],
+    allLetters: [],
+    favoriteOnly: false,
     hasPending: false,
     pendingCount: 0
   },
@@ -40,11 +42,12 @@ Page({
         })
 
         this.setData({
-          letters: processedLetters,
+          allLetters: processedLetters,
           hasPending: result.data.hasPending || false,
           pendingCount: result.data.pendingCount || 0,
           loading: false
         })
+        this.applyFilter()
       } else {
         this.setData({ loading: false })
         wx.showToast({
@@ -62,12 +65,28 @@ Page({
     }
   },
 
+  // 根据收藏筛选过滤
+  applyFilter() {
+    const { allLetters, favoriteOnly } = this.data
+    const letters = favoriteOnly ? allLetters.filter(l => l.isFavorited) : allLetters
+    this.setData({ letters })
+  },
+
+  // 切换仅收藏筛选
+  toggleFavoriteFilter() {
+    this.setData({ favoriteOnly: !this.data.favoriteOnly })
+    this.applyFilter()
+  },
+
   // 打开单封信件
   openLetter(e) {
     const letterId = e.currentTarget.dataset.id
     const letter = this.data.letters.find(l => l._id === letterId)
 
     if (!letter) return
+
+    // 阅读来信时静默请求订阅授权，积累通知配额
+    app.requestSubscribeOnce()
 
     app.globalData.currentLetter = {
       ...letter,

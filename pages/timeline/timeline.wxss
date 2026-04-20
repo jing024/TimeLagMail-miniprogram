@@ -32,6 +32,7 @@
 .legend {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 48rpx;
   padding-top: 24rpx;
   margin-bottom: 32rpx;
@@ -60,6 +61,22 @@
 
 .legend-marker.received {
   background: var(--text-muted);
+}
+
+/* 收藏筛选按钮 */
+.filter-btn {
+  font-size: 22rpx;
+  color: var(--text-muted);
+  letter-spacing: 2rpx;
+  padding: 4rpx 14rpx;
+  border-radius: 4rpx;
+  border: 1rpx solid var(--border-color);
+}
+
+.filter-btn.active {
+  color: #f0e6d6;
+  background: var(--seal-color);
+  border-color: var(--seal-color);
 }
 
 .loading {
@@ -132,6 +149,11 @@
 .bookmark.received {
   background: linear-gradient(135deg, rgba(139, 115, 85, 0.10) 0%, rgba(139, 115, 85, 0.04) 100%);
   border-left-color: var(--text-muted);
+}
+
+/* 收藏标记 - 金色左边框 */
+.bookmark.favorited {
+  border-left-color: #b8860b;
 }
 
 .bookmark-header {

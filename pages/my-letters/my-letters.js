@@ -4,7 +4,9 @@ const app = getApp()
 Page({
   data: {
     loading: true,
-    letters: []
+    letters: [],
+    allLetters: [],
+    favoriteOnly: false
   },
 
   onLoad() {
@@ -56,9 +58,10 @@ Page({
         })
 
         this.setData({
-          letters: processedLetters,
+          allLetters: processedLetters,
           loading: false
         })
+        this.applyFilter()
       } else {
         this.setData({ loading: false })
         wx.showToast({
@@ -74,6 +77,19 @@ Page({
         icon: 'none'
       })
     }
+  },
+
+  // 根据收藏筛选过滤
+  applyFilter() {
+    const { allLetters, favoriteOnly } = this.data
+    const letters = favoriteOnly ? allLetters.filter(l => l.isFavorited) : allLetters
+    this.setData({ letters })
+  },
+
+  // 切换仅收藏筛选
+  toggleFavoriteFilter() {
+    this.setData({ favoriteOnly: !this.data.favoriteOnly })
+    this.applyFilter()
   },
 
   // 打开单封信件

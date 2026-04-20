@@ -40,6 +40,11 @@ App({
         // 检查并发送待解锁信件的订阅通知
         this.checkAndNotify()
 
+        // 已配对用户静默请求订阅授权，积累通知配额
+        if (result.data.isPaired) {
+          this.requestSubscribeOnce()
+        }
+
         // 通知页面更新
         if (this.userInfoReadyCallback) {
           this.userInfoReadyCallback(result.data)

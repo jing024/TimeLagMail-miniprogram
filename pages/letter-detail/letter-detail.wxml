@@ -15,6 +15,7 @@
   <!-- 操作区 -->
   <view class="action-area">
     <button class="btn-secondary" bindtap="goBack">合上</button>
+    <button class="btn-secondary {{isFavorited ? 'favorited' : ''}}" bindtap="toggleFavorite">{{isFavorited ? '已收藏' : '收藏'}}</button>
     <button class="btn-primary" wx:if="{{showUnseal}}" bindtap="unseal">启封</button>
   </view>
 </view>

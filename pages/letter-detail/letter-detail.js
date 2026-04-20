@@ -8,7 +8,8 @@ Page({
     authorLabel: '',
     showUnseal: false,
     animated: false,
-    letterId: ''
+    letterId: '',
+    isFavorited: false
   },
 
   onLoad() {
@@ -35,7 +36,8 @@ Page({
       dateStr,
       authorLabel,
       showUnseal: letter.type === 'received' && !letter.isRead,
-      letterId: letter._id
+      letterId: letter._id,
+      isFavorited: letter.isFavorited || false
     })
 
     // 延迟触发展开动画
@@ -62,6 +64,27 @@ Page({
       }
     } catch (err) {
       console.error('启封失败:', err)
+    }
+  },
+
+  // 切换收藏
+  async toggleFavorite() {
+    try {
+      const { result } = await wx.cloud.callFunction({
+        name: 'toggleFavorite',
+        data: { letterId: this.data.letterId }
+      })
+
+      if (result.code === 0) {
+        this.setData({ isFavorited: result.data.isFavorited })
+        wx.showToast({
+          title: result.data.isFavorited ? '已收藏' : '已取消收藏',
+          icon: 'success'
+        })
+      }
+    } catch (err) {
+      console.error('收藏失败:', err)
+      wx.showToast({ title: '操作失败', icon: 'none' })
     }
   },
 

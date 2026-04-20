@@ -5,7 +5,7 @@
     <text class="streak-text">已连续通信 {{streak}} 日</text>
   </view>
 
-  <!-- 图例 -->
+  <!-- 图例 + 筛选 -->
   <view class="legend">
     <view class="legend-item">
       <view class="legend-marker sent"></view>
@@ -15,10 +15,11 @@
       <view class="legend-marker received"></view>
       <text>收到</text>
     </view>
+    <text class="filter-btn {{favoriteOnly ? 'active' : ''}}" bindtap="toggleFavoriteFilter">仅收藏</text>
   </view>
 
   <!-- 共同回忆词云 -->
-  <view class="word-cloud-card" wx:if="{{!loading && letters.length >= 5}}">
+  <view class="word-cloud-card" wx:if="{{!loading && allLetters.length >= 5 && !favoriteOnly}}">
     <view class="word-cloud-header" bindtap="toggleWordCloud">
       <text class="word-cloud-title">共同回忆</text>
       <text class="word-cloud-toggle">{{wordCloudExpanded ? '收起' : '展开'}}</text>
@@ -54,7 +55,7 @@
       <view class="timeline-dot {{item.isMine ? 'sent' : 'received'}}"></view>
 
       <!-- 书签卡片 -->
-      <view class="bookmark {{item.isMine ? 'sent' : 'received'}}" bindtap="openLetter" data-id="{{item._id}}">
+      <view class="bookmark {{item.isMine ? 'sent' : 'received'}} {{item.isFavorited ? 'favorited' : ''}}" bindtap="openLetter" data-id="{{item._id}}">
         <view class="bookmark-header">
           <view class="bookmark-header-left">
             <text class="bookmark-date">{{item.dateStr}}</text>
@@ -67,9 +68,9 @@
   </view>
 
   <!-- 空状态 -->
-  <view class="empty-state" wx:else>
+  <view class="empty-state" wx:elif="{{!loading}}">
     <view class="empty-icon">—</view>
-    <view class="empty-text">尚无记录</view>
-    <view class="empty-hint">等待第一封信</view>
+    <view class="empty-text">{{favoriteOnly ? '尚未收藏信件' : '尚无记录'}}</view>
+    <view class="empty-hint">{{favoriteOnly ? '在信件详情中点击收藏' : '等待第一封信'}}</view>
   </view>
 </view>

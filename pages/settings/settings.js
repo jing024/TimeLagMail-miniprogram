@@ -9,7 +9,7 @@ Page({
     unlockTime: '22:00',
     subscribedLetter: false,
     nickName: '',
-    version: '1.0.4'
+    version: '1.0.5'
   },
 
   onLoad() {
@@ -89,51 +89,64 @@ Page({
       return
     }
 
-    // 已配对，显示对方信息
     const partnerName = partnerInfo?.nickName || '对方'
-    const partnerAvatar = partnerInfo?.avatarUrl || ''
 
-    // 使用 showModal 显示配对信息
-    // 注意：wx.showModal 不支持自定义 HTML，所以我们用简单的文本
-    let content = `连接对象：${partnerName}`
-    
     wx.showModal({
       title: '配对信息',
-      content: content,
+      content: `连接对象：${partnerName}`,
       showCancel: false,
       confirmText: '关闭'
     })
-
-    // 如果需要显示头像，需要使用自定义弹窗组件
-    // 这里先用系统弹窗，后续可以优化为自定义组件
   },
 
-  // 订阅来信通知
+  // 来信通知开关
   subscribeLetterNotify() {
-    wx.requestSubscribeMessage({
-      tmplIds: ['9hv5zftpWQMAuRn9ugVIGjbQNN-34EshU8cnuJJSPVk'],
-      success: async (res) => {
-        if (res['9hv5zftpWQMAuRn9ugVIGjbQNN-34EshU8cnuJJSPVk'] === 'accept') {
-          try {
-            await wx.cloud.callFunction({
-              name: 'updateNotifySubscribe',
-              data: { subscribed: true }
-            })
-          } catch (e) {
-            console.error('保存订阅状态失败:', e)
+    if (this.data.subscribedLetter) {
+      // 已开启 → 确认关闭
+      wx.showModal({
+        title: '关闭来信通知',
+        content: '当前已开启来信通知，关闭后将不再收到来信提醒，确定吗？',
+        confirmText: '关闭',
+        success: async (res) => {
+          if (res.confirm) {
+            try {
+              await wx.cloud.callFunction({
+                name: 'updateNotifySubscribe',
+                data: { subscribed: false }
+              })
+              this.setData({ subscribedLetter: false })
+              wx.showToast({ title: '已关闭通知', icon: 'success' })
+            } catch (e) {
+              console.error('关闭通知失败:', e)
+              wx.showToast({ title: '操作失败', icon: 'none' })
+            }
           }
-          this.setData({ subscribedLetter: true })
-          wx.showToast({ title: '已开启来信通知', icon: 'success' })
-        } else {
-          // 用户拒绝或关闭了弹窗
-          this.setData({ subscribedLetter: false })
-          wx.showToast({ title: '未开启通知', icon: 'none' })
         }
-      },
-      fail: () => {
-        // 取消弹窗（而非明确拒绝），状态保持不变，不做操作
-      }
-    })
+      })
+    } else {
+      // 未开启 → 弹微信授权
+      const tmplId = '9hv5zftpWQMAuRn9ugVIGjbQNN-34EshU8cnuJJSPVk'
+      wx.requestSubscribeMessage({
+        tmplIds: [tmplId],
+        success: async (res) => {
+          if (res[tmplId] === 'accept') {
+            try {
+              await wx.cloud.callFunction({
+                name: 'updateNotifySubscribe',
+                data: { subscribed: true }
+              })
+            } catch (e) {
+              console.error('保存订阅状态失败:', e)
+            }
+            this.setData({ subscribedLetter: true })
+            wx.showToast({ title: '已开启来信通知', icon: 'success' })
+          } else if (res[tmplId] === 'reject') {
+            wx.showToast({ title: '未开启通知', icon: 'none' })
+          }
+        },
+        fail: () => {}
+      })
+    }
   },
 
   // 显示关于
@@ -155,10 +168,8 @@ Page({
       success: (res) => {
         if (res.confirm && res.content) {
           const timeStr = res.content.trim()
-          // 验证时间格式
           const timeRegex = /^([0-1]?[0-9]|2[0-3]):([0-5][0-9])$/
           if (timeRegex.test(timeStr)) {
-            // 格式化为 HH:MM
             const [h, m] = timeStr.split(':')
             const formattedTime = `${h.padStart(2, '0')}:${m.padStart(2, '0')}`
             this.updateUnlockTime(formattedTime)
@@ -184,22 +195,13 @@ Page({
 
       if (result.code === 0) {
         this.setData({ unlockTime: time })
-        wx.showToast({
-          title: '设置已保存',
-          icon: 'success'
-        })
+        wx.showToast({ title: '设置已保存', icon: 'success' })
       } else {
-        wx.showToast({
-          title: result.message || '设置失败',
-          icon: 'none'
-        })
+        wx.showToast({ title: result.message || '设置失败', icon: 'none' })
       }
     } catch (err) {
       console.error('更新送信时间失败:', err)
-      wx.showToast({
-        title: '网络错误',
-        icon: 'none'
-      })
+      wx.showToast({ title: '网络错误', icon: 'none' })
     }
   },
 
@@ -210,7 +212,6 @@ Page({
       content: '退出后需要重新登录',
       success: (res) => {
         if (res.confirm) {
-          // 清除全局数据
           app.globalData.openid = null
           app.globalData.isPaired = false
           app.globalData.partnerInfo = null
@@ -220,9 +221,7 @@ Page({
             icon: 'success',
             success: () => {
               setTimeout(() => {
-                wx.reLaunch({
-                  url: '/pages/index/index'
-                })
+                wx.reLaunch({ url: '/pages/index/index' })
               }, 1500)
             }
           })
