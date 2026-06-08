@@ -9,7 +9,7 @@ const _ = db.command
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext()
   const openid = wxContext.OPENID
-  const { content, deliveryDays: rawDays } = event
+  const { content, deliveryDays: rawDays, imageFileID } = event
 
   if (!openid) {
     return { code: 1001, message: '未登录' }
@@ -21,6 +21,10 @@ exports.main = async (event, context) => {
 
   if (content.length > 2000) {
     return { code: 1003, message: '内容不能超过2000字' }
+  }
+
+  if (imageFileID && !isValidImageFileID(imageFileID, openid)) {
+    return { code: 1003, message: '图片参数错误' }
   }
 
   try {
@@ -81,6 +85,7 @@ exports.main = async (event, context) => {
         _openid: openid,
         content: content.trim(),
         unlockAt: unlockAt,
+        imageFileID: imageFileID || null,
         isRead: false,
         createdAt: now
       }
@@ -100,6 +105,12 @@ exports.main = async (event, context) => {
     console.error('发送信件失败:', err)
     return { code: 5000, message: '服务器错误' }
   }
+}
+
+function isValidImageFileID(fileID, openid) {
+  if (typeof fileID !== 'string') return false
+  const pathPrefix = `/letter-images/${openid}/`
+  return fileID.startsWith('cloud://') && fileID.includes(pathPrefix)
 }
 
 // 更新连续打卡

@@ -9,14 +9,32 @@
   <view class="paper-card letter-paper">
     <!-- 右下角火漆印章 -->
     <image class="wax-seal-badge" src="/assets/wax_seal_4_clean.png" mode="aspectFit" />
+    <view class="textarea-placeholder handwriting" wx:if="{{!content && !textareaFocused}}">
+      此刻，你想对远方的人说什么...
+    </view>
     <textarea class="letter-textarea handwriting"
-              placeholder="此刻，你想对远方的人说什么..."
-              placeholder-class="placeholder"
+              placeholder=""
               maxlength="2000"
               bindinput="onInput"
+              bindfocus="onTextareaFocus"
+              bindblur="onTextareaBlur"
               value="{{content}}"/>
     <view class="char-count {{content.length >= 1800 ? 'warning' : ''}}">
       {{content.length}} / 2000
+    </view>
+  </view>
+
+  <!-- 附图 -->
+  <view class="image-attachment">
+    <view class="attach-action" wx:if="{{!selectedImagePath}}" bindtap="chooseImage">
+      <text>附图</text>
+    </view>
+    <view class="attached-image" wx:else>
+      <image class="attached-preview" src="{{selectedImagePath}}" mode="aspectFill" />
+      <view class="attached-meta">
+        <text>附图</text>
+        <text class="remove-image" bindtap="removeImage">移除</text>
+      </view>
     </view>
   </view>
 

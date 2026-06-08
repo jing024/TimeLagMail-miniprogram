@@ -1,10 +1,24 @@
 // app.js
+const CLOUD_ENV_ID = 'cloud1-7gxu9j7m6366db45'
+// 上传字体到云存储后，将 HTTPS 下载链接填到 url 字段
+const FONT_FILES = [
+  {
+    family: 'TimeLagSerif',
+    url: 'https://636c-cloud1-7gxu9j7m6366db45-1416977921.tcb.qcloud.la/fonts/LXGWNeoZhiSongScreen.woff2'
+  },
+  {
+    family: 'TimeLagKaiti',
+    url: 'https://636c-cloud1-7gxu9j7m6366db45-1416977921.tcb.qcloud.la/fonts/LXGWNeoZhiSong.woff2'
+  }
+]
+
 App({
   globalData: {
     userInfo: null,
     openid: null,
     isPaired: false,
-    partnerInfo: null
+    partnerInfo: null,
+    fontsLoaded: false
   },
 
   onLaunch() {
@@ -15,14 +29,43 @@ App({
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
       wx.cloud.init({
-        env: 'cloud1-7gxu9j7m6366db45', // 后续需要替换为实际的云开发环境ID
+        env: CLOUD_ENV_ID,
         traceUser: true
       })
+
+      this.loadCustomFonts()
     }
 
 
     // 检查登录状态
     this.checkLoginStatus()
+  },
+
+  // 加载云存储字体，真机加载失败时自动回退系统字体
+  async loadCustomFonts() {
+    if (!wx.loadFontFace) return
+
+    try {
+      const loadTasks = FONT_FILES.filter(font => font.url).map(font => {
+        return new Promise(resolve => {
+          wx.loadFontFace({
+            family: font.family,
+            source: `url("${font.url}")`,
+            global: true,
+            success: () => resolve(true),
+            fail: err => {
+              console.warn(`字体加载失败 ${font.family}:`, err)
+              resolve(false)
+            }
+          })
+        })
+      })
+
+      const results = await Promise.all(loadTasks)
+      this.globalData.fontsLoaded = results.some(Boolean)
+    } catch (err) {
+      console.warn('字体加载失败:', err)
+    }
   },
 
   // 检查登录状态

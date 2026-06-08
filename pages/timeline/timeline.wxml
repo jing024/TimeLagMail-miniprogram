@@ -18,6 +18,41 @@
     <text class="filter-btn {{favoriteOnly ? 'active' : ''}}" bindtap="toggleFavoriteFilter">仅收藏</text>
   </view>
 
+  <!-- 最近 20 周通信热力图 -->
+  <view class="heatmap-card" wx:if="{{!loading && allLetters.length > 0}}">
+    <view class="heatmap-filter" wx:if="{{selectedDateKey}}">
+      <text>{{selectedDateSummary}}</text>
+      <text class="heatmap-clear" wx:if="{{selectedDateKey}}" bindtap="clearDateFilter">清除</text>
+    </view>
+
+    <view class="heatmap-layout">
+      <view class="heatmap-day-labels">
+        <view class="heatmap-month-spacer"></view>
+        <text
+          class="heatmap-day-label {{label.show ? 'visible' : ''}}"
+          wx:for="{{heatmapDayLabels}}"
+          wx:key="key"
+          wx:for-item="label">{{label.text}}</text>
+      </view>
+
+      <view class="heatmap-grid">
+        <view class="heatmap-week" wx:for="{{heatmapWeeks}}" wx:key="key" wx:for-item="week">
+          <text class="heatmap-month-label">{{week.monthLabel}}</text>
+          <view
+            class="heatmap-day {{day.className}}"
+            wx:for="{{week.days}}"
+            wx:key="key"
+            wx:for-item="day"
+            bindtap="selectHeatmapDay"
+            data-key="{{day.key}}"
+            data-total="{{day.total}}"
+            data-label="{{day.label}}">
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
   <!-- 共同回忆词云 -->
   <view class="word-cloud-card" wx:if="{{!loading && allLetters.length >= 5 && !favoriteOnly}}">
     <view class="word-cloud-header" bindtap="toggleWordCloud">
@@ -60,6 +95,7 @@
           <view class="bookmark-header-left">
             <text class="bookmark-date">{{item.dateStr}}</text>
             <text class="bookmark-author-left {{item.isMine ? 'mine' : 'partner'}}">{{item.authorName}}</text>
+            <text class="bookmark-image-mark" wx:if="{{item.imageFileID}}">附图</text>
           </view>
           <text wx:if="{{!item.isMine}}" class="{{item.isRead ? 'footer-read' : 'footer-unread'}}">{{item.isRead ? '已开启' : '待开启'}}</text>
         </view>

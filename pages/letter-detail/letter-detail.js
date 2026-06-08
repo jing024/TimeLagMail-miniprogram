@@ -9,7 +9,11 @@ Page({
     showUnseal: false,
     animated: false,
     letterId: '',
-    isFavorited: false
+    letterType: '',
+    isFavorited: false,
+    imageFileID: '',
+    imageUrl: '',
+    imageLoading: false
   },
 
   onLoad() {
@@ -37,13 +41,42 @@ Page({
       authorLabel,
       showUnseal: letter.type === 'received' && !letter.isRead,
       letterId: letter._id,
-      isFavorited: letter.isFavorited || false
+      letterType: letter.type || '',
+      isFavorited: letter.isFavorited || false,
+      imageFileID: letter.imageFileID || ''
     })
+
+    if (letter.imageFileID) {
+      this.loadLetterImage()
+    }
 
     // 延迟触发展开动画
     setTimeout(() => {
       this.setData({ animated: true })
     }, 50)
+  },
+
+  async loadLetterImage() {
+    this.setData({ imageLoading: true })
+
+    try {
+      const { result } = await wx.cloud.callFunction({
+        name: 'getLetterImageUrl',
+        data: { letterId: this.data.letterId }
+      })
+
+      if (result.code === 0 && result.data.imageUrl) {
+        this.setData({
+          imageUrl: result.data.imageUrl,
+          imageLoading: false
+        })
+      } else {
+        this.setData({ imageLoading: false })
+      }
+    } catch (err) {
+      console.error('加载附图失败:', err)
+      this.setData({ imageLoading: false })
+    }
   },
 
   onUnload() {

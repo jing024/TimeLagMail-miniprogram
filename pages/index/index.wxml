@@ -11,12 +11,12 @@
     
     <!-- 统计数字 -->
     <view class="stats-section" wx:if="{{isLoggedIn}}">
-      <view class="stat-item" bindtap="goToMyLetters">
+      <view class="stat-item stat-sent" bindtap="goToMyLetters">
         <view class="stat-number">{{sentCount}}</view>
         <view class="stat-label">已寄出</view>
       </view>
       <view class="stat-divider"></view>
-      <view class="stat-item" bindtap="goToReceivedLetters">
+      <view class="stat-item stat-received" bindtap="goToReceivedLetters">
         <view class="stat-number">{{receivedCount}}</view>
         <view class="stat-label">已收到</view>
         <view class="stat-badge" wx:if="{{unreadCount > 0}}">{{unreadCount}}</view>
@@ -39,7 +39,7 @@
         <button class="btn-primary {{hasWrittenToday ? 'disabled' : ''}}"
                 bindtap="goToWrite"
                 disabled="{{hasWrittenToday}}">
-          {{hasWrittenToday ? '今日已书' : '🪶 书写'}}
+          {{hasWrittenToday ? '今日已书' : '书写'}}
         </button>
       </view>
       <view class="partner-status" wx:if="{{partnerInfo}}">

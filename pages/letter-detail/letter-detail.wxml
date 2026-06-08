@@ -1,5 +1,5 @@
 <!-- pages/letter-detail/letter-detail.wxml -->
-<view class="container">
+<view class="container detail-{{letterType}}">
   <!-- 信件信息 -->
   <view class="letter-meta">
     <text class="meta-date">{{dateStr}}</text>
@@ -7,9 +7,12 @@
   </view>
 
   <!-- 信纸 -->
-  <view class="letter-paper {{animated ? 'unfold' : ''}}">
+  <view class="letter-paper {{animated ? 'unfold' : ''}} {{isFavorited ? 'favorited' : ''}}">
     <image class="wax-seal-badge" src="/assets/wax_seal_4_clean.png" mode="aspectFit" />
     <view class="letter-content handwriting">{{content}}</view>
+    <view class="letter-image-wrap" wx:if="{{imageUrl}}">
+      <image class="letter-image" src="{{imageUrl}}" mode="widthFix" />
+    </view>
   </view>
 
   <!-- 操作区 -->

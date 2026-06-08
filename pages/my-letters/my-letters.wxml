@@ -15,22 +15,36 @@
 
   <!-- 信件列表 -->
   <view class="letters-list" wx:elif="{{letters.length > 0}}">
-    <view class="letter-item {{item.isUnlocked ? 'unlocked' : 'locked'}} {{item.isFavorited ? 'favorited' : ''}}"
-          wx:for="{{letters}}"
-          wx:key="_id"
-          bindtap="openLetter"
-          data-id="{{item._id}}">
-      <view class="letter-item-main">
-        <view class="letter-left">
-          <text class="letter-date">{{item.dateStr}}</text>
-          <text class="letter-preview">{{item.preview}}</text>
+    <view class="month-group" wx:for="{{monthGroups}}" wx:key="key" wx:for-item="group">
+      <view class="month-header" bindtap="toggleMonth" data-key="{{group.key}}">
+        <view>
+          <view class="month-title">{{group.title}}</view>
+          <view class="month-summary">{{group.summary}}</view>
         </view>
-        <view class="letter-status {{item.isUnlocked ? 'unlocked' : 'locked'}}">
-          {{item.isUnlocked ? '已送达' : '途中'}}
-        </view>
+        <text class="month-toggle">{{group.expanded ? '收起' : '展开'}}</text>
       </view>
-      <view class="letter-unlock-hint" wx:if="{{!item.isUnlocked}}">
-        <text class="unlock-time">{{item.unlockDateStr}} 送达</text>
+
+      <view class="month-letters" wx:if="{{group.expanded}}">
+        <view class="letter-item {{item.isUnlocked ? 'unlocked' : 'locked'}} {{item.isFavorited ? 'favorited' : ''}}"
+              wx:for="{{group.letters}}"
+              wx:key="_id"
+              wx:for-item="item"
+              bindtap="openLetter"
+              data-id="{{item._id}}">
+          <view class="letter-item-main">
+            <view class="letter-left">
+              <text class="letter-date">{{item.dateStr}}</text>
+              <text class="letter-preview">{{item.preview}}</text>
+              <text class="letter-image-mark" wx:if="{{item.imageFileID}}">附图</text>
+            </view>
+            <view class="letter-status {{item.isUnlocked ? 'unlocked' : 'locked'}}">
+              {{item.isUnlocked ? '已送达' : '途中'}}
+            </view>
+          </view>
+          <view class="letter-unlock-hint" wx:if="{{!item.isUnlocked}}">
+            <text class="unlock-time">{{item.unlockDateStr}} 送达</text>
+          </view>
+        </view>
       </view>
     </view>
   </view>

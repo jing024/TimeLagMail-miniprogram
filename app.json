@@ -10,11 +10,11 @@
     "pages/letter-detail/letter-detail"
   ],
   "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#d4c4b0",
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#f2eadf",
     "navigationBarTitleText": "时差信",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#d4c4b0"
+    "backgroundColor": "#f2eadf"
   },
   "sitemapLocation": "sitemap.json",
   "lazyCodeLoading": "requiredComponents"

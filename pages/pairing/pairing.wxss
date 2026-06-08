@@ -182,7 +182,7 @@
 
 .invite-input::placeholder {
   font-size: 30rpx;
-  font-family: 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
+  font-family: 'TimeLagSerif', 'Noto Serif SC', 'Source Han Serif SC', 'SimSun', serif;
   letter-spacing: 2rpx;
   color: var(--text-muted);
   opacity: 0.7;

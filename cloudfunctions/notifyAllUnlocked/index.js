@@ -53,10 +53,7 @@ exports.main = async (event, context) => {
         const receiver = receiverRes.data[0]
 
         if (!receiver.subscribed) {
-          // 未订阅，仅标记为已通知（避免反复查询）
-          await db.collection('letters').doc(letter._id).update({
-             data: { notified: true }
-          })
+          // 未订阅时保留待通知状态，避免用户稍后开启通知后错过提醒
           continue
         }
 
@@ -82,12 +79,7 @@ exports.main = async (event, context) => {
         sentCount++
       } catch (e) {
         console.error(`通知失败 letter=${letter._id}:`, e)
-        // 如果是配额耗尽（43101），也标记为已通知避免反复重试
-        if (e.errCode === 43101) {
-          await db.collection('letters').doc(letter._id).update({
-            data: { notified: true }
-          })
-        }
+        // 配额耗尽等发送失败时保留待通知状态，等待下次定时任务重试
         failCount++
       }
     }

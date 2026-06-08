@@ -1,21 +1,37 @@
 /* pages/read/read.wxss - 信件列表样式 */
 .container {
   min-height: 100vh;
-  padding: 0 32rpx 48rpx;
+  padding: 0 34rpx 48rpx;
+  --received-accent: #a64231;
+  --received-accent-soft: rgba(166, 66, 49, 0.10);
+  --received-accent-border: rgba(166, 66, 49, 0.30);
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 32rpx 16rpx;
+  padding: 34rpx 8rpx 28rpx;
+  border-bottom: 1rpx solid rgba(166, 66, 49, 0.18);
+  margin-bottom: 28rpx;
 }
 
 .header-title {
-  font-size: 36rpx;
+  font-size: 34rpx;
   font-weight: 400;
   letter-spacing: 8rpx;
   color: var(--text-primary);
+  position: relative;
+}
+
+.header-title::after {
+  content: '';
+  display: block;
+  width: 52rpx;
+  height: 3rpx;
+  margin-top: 10rpx;
+  background: var(--received-accent);
+  opacity: 0.72;
 }
 
 .header-right {
@@ -35,15 +51,15 @@
   font-size: 22rpx;
   color: var(--text-muted);
   letter-spacing: 2rpx;
-  padding: 4rpx 14rpx;
+  padding: 6rpx 14rpx;
   border-radius: 4rpx;
   border: 1rpx solid var(--border-color);
 }
 
 .filter-btn.active {
-  color: #f0e6d6;
-  background: var(--seal-color);
-  border-color: var(--seal-color);
+  color: var(--paper-light);
+  background: var(--gold-color);
+  border-color: var(--gold-color);
 }
 
 .loading {
@@ -58,32 +74,84 @@
 .letters-list {
   display: flex;
   flex-direction: column;
-  gap: 16rpx;
+  gap: 24rpx;
+}
+
+.month-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.month-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 8rpx 4rpx 16rpx;
+  border-bottom: 1rpx solid rgba(166, 66, 49, 0.14);
+}
+
+.month-title {
+  font-size: 28rpx;
+  color: var(--text-primary);
+  letter-spacing: 4rpx;
+}
+
+.month-summary {
+  margin-top: 4rpx;
+  font-size: 21rpx;
+  color: var(--text-muted);
+  letter-spacing: 1rpx;
+}
+
+.month-toggle {
+  flex-shrink: 0;
+  font-size: 22rpx;
+  color: var(--received-accent);
+  letter-spacing: 2rpx;
+  padding-left: 20rpx;
+}
+
+.month-letters {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
 }
 
 .letter-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--paper-light);
+  background: #fff9ee;
   background-image:
-    radial-gradient(ellipse at 30% 0%, rgba(255, 252, 245, 0.5) 0%, transparent 60%);
-  border-radius: 12rpx;
-  border: none;
+    linear-gradient(90deg, rgba(166, 66, 49, 0.070) 0%, rgba(176, 122, 31, 0.030) 40%, rgba(166, 66, 49, 0) 74%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 248, 236, 0.96) 100%);
+  border-radius: 6rpx;
+  border: 1rpx solid var(--received-accent-border);
+  border-left: 4rpx solid var(--received-accent);
   box-shadow:
-    inset 0 2rpx 6rpx rgba(255, 252, 245, 0.6),
-    inset 0 -1rpx 4rpx rgba(61, 41, 20, 0.07),
-    0 1rpx 3rpx rgba(61, 41, 20, 0.06);
-  padding: 24rpx 32rpx;
+    0 8rpx 22rpx rgba(166, 66, 49, 0.08),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.78);
+  padding: 26rpx 30rpx;
 }
 
 .letter-item.unread {
-  border-left: 5rpx solid var(--seal-color);
+  border-color: rgba(166, 66, 49, 0.28);
+  border-left-color: var(--seal-color);
+  background-image:
+    linear-gradient(90deg, rgba(166, 66, 49, 0.085) 0%, rgba(166, 66, 49, 0) 36%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.86) 0%, rgba(255, 248, 236, 0.96) 100%);
 }
 
-/* 收藏标记 - 金色左边框 */
 .letter-item.favorited {
-  border-left: 5rpx solid #b8860b;
+  border-color: rgba(176, 122, 31, 0.54);
+  border-left-color: var(--gold-color);
+  background-image:
+    linear-gradient(90deg, rgba(176, 122, 31, 0.13) 0%, rgba(176, 122, 31, 0.035) 42%, rgba(176, 122, 31, 0) 76%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.84) 0%, rgba(255, 248, 236, 0.96) 100%);
+  box-shadow:
+    0 8rpx 22rpx rgba(176, 122, 31, 0.11),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.78);
 }
 
 .letter-left {
@@ -95,37 +163,49 @@
 }
 
 .letter-date {
-  font-size: 26rpx;
+  font-size: 25rpx;
   color: var(--text-primary);
   letter-spacing: 2rpx;
   flex-shrink: 0;
 }
 
 .letter-preview {
-  font-size: 24rpx;
+  font-size: 25rpx;
   color: var(--text-muted);
-  margin-left: 16rpx;
+  margin-left: 18rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   min-width: 0;
 }
 
-.letter-status {
-  padding: 4rpx 16rpx;
-  border-radius: 2rpx;
+.letter-image-mark {
+  flex-shrink: 0;
+  margin-left: 14rpx;
+  padding: 3rpx 10rpx;
+  border-radius: 4rpx;
+  border: 1rpx solid rgba(63, 60, 55, 0.16);
+  color: #4d4841;
+  background: rgba(63, 60, 55, 0.055);
   font-size: 20rpx;
-  letter-spacing: 4rpx;
+  letter-spacing: 2rpx;
+}
+
+.letter-status {
+  padding: 5rpx 14rpx;
+  border-radius: 4rpx;
+  font-size: 20rpx;
+  letter-spacing: 3rpx;
 }
 
 .letter-status.read {
-  background: rgba(139, 115, 85, 0.1);
-  color: var(--text-muted);
+  background: var(--received-accent-soft);
+  color: var(--received-accent);
 }
 
 .letter-status.unread {
   background: var(--seal-color);
-  color: #f0e6d6;
+  color: var(--paper-light);
 }
 
 /* 等待解锁提示 */
